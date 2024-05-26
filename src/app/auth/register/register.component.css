@@ -1,9 +1,18 @@
-mat-form-field {
-    width: 100%;
-    display: block;
-  }
-  
-  button {
-    margin-top: 15px;
-  }
-  
+.register-form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.register-form mat-form-field  {
+    width: 100%; 
+    margin-bottom: 20px; 
+}
+
+button {
+    width: 100%; 
+    margin-top: 20px;
+}

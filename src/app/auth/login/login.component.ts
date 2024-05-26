@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,14 +15,28 @@ export class LoginComponent {
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private snackBar: MatSnackBar, private router: Router) {}
 
   ngOnInit() {
   }
 
   onLogin() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+      this.authService.login(this.loginForm.value).subscribe(
+        success => {
+          this.router.navigate(['/home']);
+        },
+        error => {
+          console.error('Login Failed', error);
+          this.snackBar.open('Errore - username o password non validi', 'Close', {
+            duration: 3000,
+            panelClass: ['red-snackbar']
+          });
+        }
+      );
+    } else {
+      console.log('Form is not valid', this.loginForm.errors);
+      // TODO impostare una logica per mostrare gli errori nel template
     }
   }
 }
