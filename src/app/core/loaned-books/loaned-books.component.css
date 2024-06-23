@@ -1,0 +1,41 @@
+.container {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.filters {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+mat-card {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+mat-card-header {
+    align-items: center;
+}
+
+.mat-card-image {
+    width: auto;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+mat-card-content {
+    flex-grow: 1;
+}
+  
+.available-button {
+    color: green;
+}
+
+.unavailable-button {
+    color: grey;
+}
+  

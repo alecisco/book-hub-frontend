@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Aggiungi un nuovo libro</h1>
 <div mat-dialog-content>
-  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="bookForm">
     <mat-form-field appearance="fill">
       <mat-label>Titolo</mat-label>
       <input matInput formControlName="title" required>
@@ -32,14 +32,6 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label>Disponibile</mat-label>
-      <mat-select formControlName="available" required>
-        <mat-option [value]="true">Sì</mat-option>
-        <mat-option [value]="false">No</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
       <mat-label>URL della foto</mat-label>
       <input matInput formControlName="photoUrl" required>
     </mat-form-field>
@@ -52,10 +44,9 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit">Aggiungi</button>
   </form>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions class="dialog_actions">
   <button mat-button mat-dialog-close>Annulla</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!bookForm.valid">Aggiungi</button>
 </div>

@@ -15,6 +15,7 @@ import { CoreModule } from './core/core.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -29,10 +30,11 @@ import { MatIconModule } from '@angular/material/icon';
     BrowserAnimationsModule,
     HttpClientModule,
     MatSnackBarModule,
-    CoreModule ,
+    CoreModule,
     MatCardModule,
     MatGridListModule,
-    MatIconModule
+    MatIconModule,
+    MatChipsModule
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

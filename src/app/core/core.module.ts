@@ -13,11 +13,19 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MyLibraryComponent } from './my-library/my-library.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { LoanDialogComponent } from './loan-dialog/loan-dialog.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { LoanedBooksComponent } from './loaned-books/loaned-books.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    BookFormDialogComponent
+    BookFormDialogComponent,
+    MyLibraryComponent,
+    LoanDialogComponent,
+    LoanedBooksComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +39,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatDialogModule,
     ReactiveFormsModule,
     MatTabsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatChipsModule,
+    MatTooltipModule
   ]
 })
 export class CoreModule { }

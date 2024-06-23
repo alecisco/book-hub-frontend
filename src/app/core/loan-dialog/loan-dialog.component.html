@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Concedi in prestito</h1>
+<div mat-dialog-content>
+  <form [formGroup]="loanForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo di prestito</mat-label>
+      <mat-select formControlName="loanType" (selectionChange)="onLoanTypeChange()">
+        <mat-option value="loanOnly">Solo prestito</mat-option>
+        <mat-option value="specificBook">Scambia con libro specifico</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="showSpecificBookInput" appearance="fill">
+      <mat-label>Libro specifico</mat-label>
+      <input matInput formControlName="specificBook">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions class="dialog_actions">
+  <button mat-button mat-dialog-close>Annulla</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">Concedi</button>
+</div>

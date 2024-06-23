@@ -5,7 +5,6 @@ export interface BookCreateDto {
   isbn: string;
   description: string;
   condition: string;
-  available: boolean;
   photoUrl: string;
   genreId: number;
   userId?: number;
@@ -19,9 +18,8 @@ export interface BookDto {
   isbn: string;
   description: string;
   condition: string;
-  available: boolean;
   photoUrl: string;
   genreId: number;
   genreName: string;
-  userId: number;
+  status: string; 
 }

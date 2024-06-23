@@ -28,7 +28,6 @@ export class BookFormDialogComponent implements OnInit {
       isbn: ['', Validators.required],
       description: ['', Validators.required],
       condition: ['', Validators.required],
-      available: [true, Validators.required],
       photoUrl: ['', Validators.required],
       genreId: ['', Validators.required]
     });

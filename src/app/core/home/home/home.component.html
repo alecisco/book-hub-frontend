@@ -1,58 +1,15 @@
-<h2> Bentornato {{userData?.name}} </h2>
+<div class="home_container">
 
-<h2> La tua libreria </h2>
+  <h2> Bentornato {{userData?.name}} </h2>
 
-<mat-tab-group>
-  <mat-tab label="La tua libreria">
+  <mat-tab-group>
+    <mat-tab label="La tua libreria">
+      <app-my-library [userData]="userData"></app-my-library>
+    </mat-tab>
 
-    <button mat-fab color="primary" class="fab-button" (click)="openDialog()">
-      <mat-icon>add</mat-icon>
-    </button>
+    <mat-tab label="Libri in prestito">
+      <app-loaned-books></app-loaned-books>
+    </mat-tab>
+  </mat-tab-group>
 
-    <!-- Filtri -->
-    <div class="filters">
-      <mat-form-field appearance="fill">
-        <mat-label>Genere</mat-label>
-        <mat-select (selectionChange)="applyFilters()">
-          <mat-option *ngFor="let genre of genres" [value]="genre.genreId">{{ genre.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Autore</mat-label>
-        <input matInput name="author" (input)="applyFilters($event)">
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Titolo</mat-label>
-        <input matInput name="title" (input)="applyFilters($event)">
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Anno</mat-label>
-        <input matInput name="year" (input)="applyFilters($event)">
-      </mat-form-field>
-    </div>
-
-    <mat-grid-list cols="3" rowHeight="1:1.3" class="custom-grid">
-      <mat-grid-tile *ngFor="let book of filteredBooks" class="custom-tile">
-        <mat-card class="custom-card">
-          <mat-card-header>
-            <div mat-card-avatar [style.backgroundImage]="'url(' + book.photoUrl + ')'"></div>
-            <mat-card-title>{{ book.title }}</mat-card-title>
-            <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-          </mat-card-header>
-          <img class="mat-card-image" [src]="book.photoUrl" alt="Photo of {{ book.title }}">
-          <mat-card-content>
-            <p>{{ book.description }}</p>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </mat-tab>
-
-  <mat-tab label="Libri in prestito">
-    <p>Questo è il contenuto della nuova tab.</p>
-  </mat-tab>
-
-</mat-tab-group>
+</div>
