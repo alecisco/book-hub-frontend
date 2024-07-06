@@ -16,6 +16,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSliderModule } from '@angular/material/slider';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { MatChipsModule } from '@angular/material/chips';
     MatCardModule,
     MatGridListModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    MatMenuModule,
+    ReactiveFormsModule,
+    MatSliderModule 
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

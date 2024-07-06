@@ -1,0 +1,60 @@
+<form [formGroup]="profileForm" (ngSubmit)="onUpdate()" class="profile-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Nickname</mat-label>
+      <input matInput formControlName="nickname">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Cognome</mat-label>
+      <input matInput formControlName="surname">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Numero di telefono</mat-label>
+      <input matInput formControlName="phoneNumber">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Comunità (Opzionale)</mat-label>
+      <input matInput formControlName="community">
+    </mat-form-field>
+  
+    <button mat-raised-button color="primary" type="submit">Aggiorna</button>
+  </form>
+  
+  <h3>Cambia Password</h3>
+  <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="change-password-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Vecchia Password</mat-label>
+      <input matInput type="password" formControlName="oldPassword">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Nuova Password</mat-label>
+      <input matInput type="password" formControlName="newPassword">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Conferma Nuova Password</mat-label>
+      <input matInput type="password" formControlName="confirmNewPassword">
+      <mat-error *ngIf="passwordForm.get('confirmNewPassword')?.errors?.['required']">
+        Conferma della nuova password è richiesta.
+      </mat-error>
+      <mat-error *ngIf="passwordForm.errors?.['mustMatch'] && passwordForm.get('confirmNewPassword')?.touched">
+        Le password non corrispondono.
+      </mat-error>
+    </mat-form-field>
+  
+    <button mat-raised-button color="primary" type="submit">Cambia Password</button>
+  </form>
+  

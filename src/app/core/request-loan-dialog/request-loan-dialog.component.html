@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Richiedi Prestito</h1>
+<div mat-dialog-content>
+  <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+    <mat-form-field *ngIf="showSpecificBookInput" appearance="fill">
+      <mat-label>Libro specifico</mat-label>
+      <mat-select formControlName="specificBookId">
+        <mat-option *ngFor="let book of userBooks" [value]="book.bookId">{{ book.title }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Messaggio</mat-label>
+      <textarea matInput formControlName="message" placeholder="Indica la modalità di scambio"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Invia richiesta</button>
+    <button mat-button mat-dialog-close>Annulla</button>
+  </form>
+</div>

@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { LoanService } from '../../services/loan/loan.service';
 import { LoanedBookDto } from '../../models/loanedbook';
 import { Filters } from 'src/app/models/filter.interface';
 import { PageEvent } from '@angular/material/paginator';
+import { RequestLoanDialogComponent } from '../request-loan-dialog/request-loan-dialog.component'; // Import the dialog component
+import { HomepageService } from 'src/app/services/homepage/home.service'; // Import the service to get user's books
+import { BookDto } from 'src/app/models/book.model';
 
 @Component({
   selector: 'app-loaned-books',
@@ -26,11 +30,13 @@ export class LoanedBooksComponent implements OnInit {
   filteredBooks: LoanedBookDto[] = [];
   paginatedBooks: LoanedBookDto[] = [];
   pageSize = 20;
+  userBooks: BookDto[] = []; // Add this line to store user's books
 
-  constructor(private loanService: LoanService) {}
+  constructor(private loanService: LoanService, public dialog: MatDialog, private homepageService: HomepageService) {}
 
   ngOnInit(): void {
     this.loadLoanedBooks();
+    this.loadUserBooks(); // Load user's books
   }
 
   loadLoanedBooks(): void {
@@ -39,8 +45,16 @@ export class LoanedBooksComponent implements OnInit {
         this.filteredBooks = books;
         this.paginate({ pageIndex: 0, pageSize: this.pageSize, length: this.filteredBooks.length });
       },
+    });
+  }
+
+  loadUserBooks(): void {
+    this.homepageService.getHomeData().subscribe({
+      next: (data) => {
+        this.userBooks = data.user.books;
+      },
       error: (error) => {
-        console.error('Error fetching loaned books', error);
+        console.error('Error fetching user books', error);
       }
     });
   }
@@ -65,5 +79,18 @@ export class LoanedBooksComponent implements OnInit {
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
     this.paginatedBooks = this.filteredBooks.slice(startIndex, endIndex);
+  }
+
+  openRequestLoanDialog(book: LoanedBookDto): void {
+    const dialogRef = this.dialog.open(RequestLoanDialogComponent, {
+      width: '400px',
+      data: { book, userBooks: this.userBooks }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Request loan action:', result);
+      }
+    });
   }
 }

@@ -24,7 +24,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe(
         success => {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/my-library']);
         },
         error => {
           console.error('Login Failed', error);
@@ -36,7 +36,10 @@ export class LoginComponent {
       );
     } else {
       console.log('Form is not valid', this.loginForm.errors);
-      // TODO impostare una logica per mostrare gli errori nel template
+      this.snackBar.open('Errore - form non valida', 'Close', {
+        duration: 3000,
+        panelClass: ['red-snackbar']
+      });
     }
   }
 }

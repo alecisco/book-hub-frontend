@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoanedBookDto } from 'src/app/models/loanedbook';
+import { CreateLoanRequestDto, LoanRequestDto } from 'src/app/models/loan-request.model';
 
 
 @Injectable({
@@ -16,7 +17,32 @@ export class LoanService {
     return this.http.post<any>(`${this.apiUrl}`+'/loans/createLoan', loanData);
   }
 
+  retractLoan(bookId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/loans/retractLoan/${bookId}`);
+  }
+
   getLoanedBooks(): Observable<LoanedBookDto[]> {
     return this.http.get<LoanedBookDto[]>(`${this.apiUrl}/loans/loanedBooks`);
   }
+
+  createLoanRequest(loanRequest: CreateLoanRequestDto): Observable<LoanRequestDto> {
+    return this.http.post<LoanRequestDto>(`${this.apiUrl}/loanrequests/createLoanRequest`, loanRequest);
+  }
+
+  getLoanRequests(): Observable<LoanRequestDto[]> {
+    return this.http.get<LoanRequestDto[]>(`${this.apiUrl}/loanrequests`);
+  }
+
+  acceptLoanRequest(requestId: number): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/loanrequests/${requestId}/accept`, {});
+  }
+
+  rejectLoanRequest(requestId: number): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/loanrequests/${requestId}/reject`, {});
+  }
+
+  concludeLoan(review: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reviews/concludeLoan`, review);
+  }
+
 }

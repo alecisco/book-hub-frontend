@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ElementRef   } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HomepageService } from '../../services/homepage/home.service';
 import { BookFormDialogComponent } from '../home/book-form-dialog/book-form-dialog.component';
@@ -9,6 +9,7 @@ import { User } from 'src/app/models/user.model';
 import { LoanDialogComponent } from '../loan-dialog/loan-dialog.component';
 import { LoanService } from 'src/app/services/loan/loan.service';
 import { MatSelectChange } from '@angular/material/select';
+import { ReviewDialogComponent } from '../review-dialog/review-dialog.component';
 
 @Component({
   selector: 'app-my-library',
@@ -16,7 +17,7 @@ import { MatSelectChange } from '@angular/material/select';
   styleUrls: ['./my-library.component.css']
 })
 export class MyLibraryComponent implements OnInit, OnChanges {
-  @Input() userData: User | null = null;
+  userData: User | null = null;
   genres = [
     { genreId: 1, name: 'Fantasia' },
     { genreId: 2, name: 'Fantascienza' },
@@ -29,7 +30,7 @@ export class MyLibraryComponent implements OnInit, OnChanges {
     author: '',
     title: '',
     year: '',
-    status: ''  // Add this line
+    status: ''
   };
   filteredBooks: BookDto[] = [];
   paginatedBooks: BookDto[] = [];
@@ -42,9 +43,7 @@ export class MyLibraryComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    if (this.userData) {
-      this.applyFilters();
-    }
+    this.loadHomeData();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -53,11 +52,25 @@ export class MyLibraryComponent implements OnInit, OnChanges {
     }
   }
 
+  private loadHomeData(): void {
+    this.homepageService.getHomeData().subscribe({
+      next: (data) => {
+        this.userData = data.user;
+        this.filteredBooks = data.books;
+        this.applyFilters();
+        console.log(data);
+      },
+      error: (error) => {
+        console.error('Error fetching user data', error);
+      }
+    });
+  }
+
   applyFilters(event?: Event | MatSelectChange): void {
     if (event) {
       if (event instanceof MatSelectChange) {
-        const target = event.source._elementRef.nativeElement; 
-        const name = target.getAttribute('name'); 
+        const target = event.source._elementRef.nativeElement;
+        const name = target.getAttribute('name');
         this.filters[name] = event.value;
       } else {
         const target = event.target as HTMLInputElement;
@@ -72,7 +85,7 @@ export class MyLibraryComponent implements OnInit, OnChanges {
                (!this.filters.author || book.author.toLowerCase().includes(this.filters.author.toLowerCase())) &&
                (!this.filters.title || book.title.toLowerCase().includes(this.filters.title.toLowerCase())) &&
                (!this.filters.year || book.publicationYear.toString().includes(this.filters.year)) &&
-               (!this.filters['status'] || book.status === this.filters['status']); 
+               (!this.filters['status'] || book.status === this.filters['status']);
       });
       this.paginate({ pageIndex: 0, pageSize: this.pageSize, length: this.filteredBooks.length });
     }
@@ -98,7 +111,7 @@ export class MyLibraryComponent implements OnInit, OnChanges {
         this.homepageService.addBook(newBook).subscribe({
           next: (book: BookDto) => {
             this.userData?.books.push(book);
-            this.applyFilters(); 
+            this.applyFilters();
           },
           error: (error) => {
             console.error('Failed to add book', error);
@@ -117,11 +130,51 @@ export class MyLibraryComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Loan action:', result);
+        this.loadHomeData(); 
       }
     });
   }
 
   retractLoan(book: BookDto): void {
-    console.log('Retract loan:', book);
+    this.loanService.retractLoan(book.bookId).subscribe({
+      next: () => {
+        console.log('Loan retracted successfully');
+        this.loadHomeData(); 
+      },
+      error: (error) => {
+        console.error('Failed to retract loan', error);
+      }
+    });
+  }
+
+  openReviewDialog(book: BookDto): void {
+    const dialogRef = this.dialog.open(ReviewDialogComponent, {
+      width: '400px',
+      data: { loanRequestId: book.loanRequestId, userId: this.userData?.userId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Review submitted:', result);
+        this.loadHomeData(); 
+      }
+    });
+  }
+
+  getTooltip(book: BookDto): string {
+    if (book.status === 'in libreria') {
+      return 'Concedi in prestito';
+    } else if (book.status === 'disponibile per il prestito') {
+      return 'Ritira dal prestito';
+    } 
+    return '';
+  }
+
+  handleButtonClick(book: BookDto): void {
+    if (book.status === 'in libreria') {
+      this.openLoanDialog(book);
+    } else if (book.status === 'disponibile per il prestito') {
+      this.retractLoan(book);
+    }
   }
 }

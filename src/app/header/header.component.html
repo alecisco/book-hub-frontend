@@ -1,4 +1,20 @@
 <mat-toolbar color="primary">
-    <span>Book Hub</span>
-  </mat-toolbar>
-  
+  <span>Book Hub</span>
+  <div class="nav-container" *ngIf="isLoggedIn">
+    <a mat-button routerLink="/my-library">La tua libreria</a>
+    <a mat-button routerLink="/loaned-books"> Prestiti</a>
+  </div>
+  <div *ngIf="isLoggedIn">
+    <button mat-icon-button color="primary" routerLink="/notification-center" class="notification-button">
+      <mat-icon>notifications</mat-icon>
+      <span *ngIf="pendingRequestsCount > 0" class="notification-badge">{{ pendingRequestsCount }}</span>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #profileMenu="matMenu">
+      <button mat-menu-item routerLink="/profile">Modifica Profilo</button>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+  </div>
+</mat-toolbar>

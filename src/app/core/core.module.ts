@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home/home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -18,14 +17,23 @@ import { MatChipsModule } from '@angular/material/chips';
 import { LoanDialogComponent } from './loan-dialog/loan-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LoanedBooksComponent } from './loaned-books/loaned-books.component';
+import { RequestLoanDialogComponent } from './request-loan-dialog/request-loan-dialog.component';
+import { NotificationCenterComponent } from './notification-center/notification-center.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
+import { MatSliderModule } from '@angular/material/slider';
+
 
 @NgModule({
   declarations: [
-    HomeComponent,
     BookFormDialogComponent,
     MyLibraryComponent,
     LoanDialogComponent,
-    LoanedBooksComponent
+    LoanedBooksComponent,
+    RequestLoanDialogComponent,
+    NotificationCenterComponent,
+    ProfileComponent,
+    ReviewDialogComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +49,8 @@ import { LoanedBooksComponent } from './loaned-books/loaned-books.component';
     MatTabsModule,
     MatPaginatorModule,
     MatChipsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSliderModule
   ]
 })
 export class CoreModule { }

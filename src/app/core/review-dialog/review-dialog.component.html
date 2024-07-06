@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Concludi il prestito</h1>
+<div mat-dialog-content>
+  <form [formGroup]="reviewForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Rating</mat-label>
+      <mat-select formControlName="rating">
+        <mat-option *ngFor="let rating of ratings" [value]="rating">{{ rating }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Recensione</mat-label>
+      <textarea matInput formControlName="comment"></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onSubmit()">Submit</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</div>

@@ -22,4 +22,7 @@ export interface BookDto {
   genreId: number;
   genreName: string;
   status: string; 
+  ownerName?: string; 
+  borrowerName?: string; 
+  loanRequestId?: number; 
 }
