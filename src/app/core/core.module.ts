@@ -22,6 +22,7 @@ import { NotificationCenterComponent } from './notification-center/notification-
 import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
 import { MatSliderModule } from '@angular/material/slider';
+import { LoanHistoryComponent } from './loan-history/loan-history.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { MatSliderModule } from '@angular/material/slider';
     RequestLoanDialogComponent,
     NotificationCenterComponent,
     ProfileComponent,
-    ReviewDialogComponent
+    ReviewDialogComponent,
+    LoanHistoryComponent
   ],
   imports: [
     CommonModule,

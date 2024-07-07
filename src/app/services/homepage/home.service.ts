@@ -16,6 +16,10 @@ export class HomepageService {
     return this.http.get<User>(`${this.apiUrl}/home/getHomeData`); 
   }
 
+  getUserData(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/user/getUserData`); 
+  }
+
   addBook(book: BookCreateDto ): Observable<BookDto> {
     return this.http.post<BookDto >(`${this.apiUrl}/books/AddBook`, book);
   }

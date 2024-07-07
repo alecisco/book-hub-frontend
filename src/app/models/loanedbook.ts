@@ -12,5 +12,7 @@ export interface LoanedBookDto {
     genreName: string;
     loanType: string;
     specificBookTitle?: string; 
+    pendingRequest: boolean;
+    lenderNickname: string;
   }
   

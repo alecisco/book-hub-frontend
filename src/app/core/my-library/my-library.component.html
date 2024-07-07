@@ -59,7 +59,7 @@
                   (click)="handleButtonClick(book)">
             <mat-icon>handshake</mat-icon>
           </button>
-          <button *ngIf="book.status === 'prestato'" mat-icon-button color="warn" (click)="openReviewDialog(book)">
+          <button *ngIf="book.status === 'prestato'" mat-icon-button color="warn" (click)="openReviewDialog(book, 'concludeLoan')">
             <mat-icon>done</mat-icon>
           </button>
         </mat-card-actions>

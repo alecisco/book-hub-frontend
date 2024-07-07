@@ -1,53 +1,63 @@
-<div class="container">
-  <div class="filters">
-    <mat-form-field appearance="fill">
-      <mat-label>Genere</mat-label>
-      <mat-select (selectionChange)="applyFilters()">
-        <mat-option *ngFor="let genre of genres" [value]="genre.genreId">{{ genre.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+<mat-tab-group>
+  <mat-tab label="Richieste di prestito">
+    <div class="container">
+      <div class="filters">
+        <mat-form-field appearance="fill">
+          <mat-label>Genere</mat-label>
+          <mat-select (selectionChange)="applyFilters()">
+            <mat-option *ngFor="let genre of genres" [value]="genre.genreId">{{ genre.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Autore</mat-label>
-      <input matInput name="author" (input)="applyFilters($event)">
-    </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Autore</mat-label>
+          <input matInput name="author" (input)="applyFilters($event)">
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Titolo</mat-label>
-      <input matInput name="title" (input)="applyFilters($event)">
-    </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Titolo</mat-label>
+          <input matInput name="title" (input)="applyFilters($event)">
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Anno</mat-label>
-      <input matInput name="year" (input)="applyFilters($event)">
-    </mat-form-field>
-  </div>
+        <mat-form-field appearance="fill">
+          <mat-label>Anno</mat-label>
+          <input matInput name="year" (input)="applyFilters($event)">
+        </mat-form-field>
+      </div>
 
-  <mat-grid-list cols="3" rowHeight="1:1.3" class="custom-grid">
-    <mat-grid-tile *ngFor="let book of paginatedBooks" class="custom-tile">
-      <mat-card class="custom-card">
-        <mat-card-header>
-          <mat-card-title>{{ book.title }}</mat-card-title>
-          <mat-card-subtitle>{{ book.author }} ({{ book.publicationYear }})</mat-card-subtitle>
-        </mat-card-header>
-        <img class="mat-card-image" [src]="book.photoUrl" alt="Photo of {{ book.title }}">
-        <mat-card-content>
-          <p>{{ book.description }}</p>
-          <p>Tipo di prestito: {{ book.loanType === 'loanOnly' ? 'Solo prestito' : 'Scambio con libro' }}</p>
-          <p *ngIf="book.specificBookTitle">Libro richiesto: {{ book.specificBookTitle }}</p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-icon-button color="primary" (click)="openRequestLoanDialog(book)">
-            <mat-icon>book</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+      <mat-grid-list cols="3" rowHeight="1:1.3" class="custom-grid">
+        <mat-grid-tile *ngFor="let book of paginatedBooks" class="custom-tile">
+          <mat-card class="custom-card">
+            <mat-card-header>
+              <mat-card-title>{{ book.title }}</mat-card-title>
+              <mat-card-subtitle>{{ book.author }} ({{ book.publicationYear }})</mat-card-subtitle>
+            </mat-card-header>
+            <img class="mat-card-image" [src]="book.photoUrl" alt="Photo of {{ book.title }}">
+            <mat-card-content>
+              <p>{{ book.description }}</p>
+              <p>Tipo di prestito: {{ book.loanType === 'loanOnly' ? 'Solo prestito' : 'Scambio con libro' }}</p>
+              <p *ngIf="book.specificBookTitle">Libro richiesto: {{ book.specificBookTitle }}</p>
+              <p>Prestato da: {{ book.lenderNickname }}</p>
+              <p *ngIf="book.pendingRequest">In attesa di risposta</p>
+            </mat-card-content>
+            <mat-card-actions *ngIf="!book.pendingRequest">
+              <button mat-icon-button color="primary" (click)="openRequestLoanDialog(book)">
+                <mat-icon>book</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
 
-  <mat-paginator [length]="filteredBooks.length"
-                 [pageSize]="pageSize"
-                 [pageSizeOptions]="[5, 10, 20]"
-                 (page)="paginate($event)">
-  </mat-paginator>
-</div>
+      <mat-paginator [length]="filteredBooks.length"
+                     [pageSize]="pageSize"
+                     [pageSizeOptions]="[5, 10, 20]"
+                     (page)="paginate($event)">
+      </mat-paginator>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Storico prestiti">
+    <app-loan-history></app-loan-history>
+  </mat-tab>
+</mat-tab-group>

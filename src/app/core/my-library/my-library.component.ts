@@ -10,6 +10,7 @@ import { LoanDialogComponent } from '../loan-dialog/loan-dialog.component';
 import { LoanService } from 'src/app/services/loan/loan.service';
 import { MatSelectChange } from '@angular/material/select';
 import { ReviewDialogComponent } from '../review-dialog/review-dialog.component';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-my-library',
@@ -39,7 +40,8 @@ export class MyLibraryComponent implements OnInit, OnChanges {
   constructor(
     private homepageService: HomepageService,
     public dialog: MatDialog,
-    private loanService: LoanService
+    private loanService: LoanService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -56,6 +58,7 @@ export class MyLibraryComponent implements OnInit, OnChanges {
     this.homepageService.getHomeData().subscribe({
       next: (data) => {
         this.userData = data.user;
+        this.userService.setUser(data.user);
         this.filteredBooks = data.books;
         this.applyFilters();
         console.log(data);
@@ -147,10 +150,10 @@ export class MyLibraryComponent implements OnInit, OnChanges {
     });
   }
 
-  openReviewDialog(book: BookDto): void {
+  openReviewDialog(book: BookDto, actionType: string): void {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '400px',
-      data: { loanRequestId: book.loanRequestId, userId: this.userData?.userId }
+      data: { loanRequestId: book.loanRequestId, userId: this.userData?.userId, actionType }
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -1,0 +1,32 @@
+<div class="container">
+    <h2>Storico Prestiti</h2>
+  
+    <mat-grid-list cols="3" rowHeight="1:1.3" class="custom-grid">
+      <mat-grid-tile *ngFor="let loan of loanHistory" class="custom-tile">
+        <mat-card class="custom-card">
+          <mat-card-header>
+            <mat-card-title>{{ loan.bookTitle }}</mat-card-title>
+            <mat-card-subtitle>{{ loan.author }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Inizio prestito: {{ loan.startDate | date:'short' }}</p>
+            <p>Fine prestito: {{ loan.endDate | date:'short' }}</p>
+            <p>Proprietario: {{ loan.lenderName }}</p>
+            <p>Prestatario: {{ loan.borrowerName }}</p>
+            <p *ngIf="loan.lenderName === userData?.nickname">(Prestato da te)</p>
+            <p *ngIf="loan.borrowerName === userData?.nickname">(Ti è stato prestato)</p>
+            <p *ngIf="loan.borrowerReview">Recensione del prestatario: {{ loan.borrowerReview.rating }} stelle, "{{ loan.borrowerReview.comment }}"</p>
+            <p *ngIf="loan.lenderReview">Recensione del proprietario: {{ loan.lenderReview.rating }} stelle, "{{ loan.lenderReview.comment }}"</p>
+            <p *ngIf="!loan.borrowerReview">Recensione del prestatario: Nessuna recensione</p>
+            <p *ngIf="!loan.lenderReview">Recensione del proprietario: Nessuna recensione</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button *ngIf="canLeaveReview(loan)" mat-raised-button color="primary" (click)="openReviewDialog(loan, 'submitReview')">
+              Lascia una recensione
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  

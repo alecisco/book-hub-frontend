@@ -10,7 +10,8 @@ import { LoanService } from 'src/app/services/loan/loan.service';
 })
 export class ReviewDialogComponent {
   reviewForm: FormGroup;
-  ratings = [1, 2, 3, 4, 5]; // Ratings array for dropdown
+  ratings = [1, 2, 3, 4, 5];
+  actionType: string;
 
   constructor(
     private fb: FormBuilder,
@@ -18,8 +19,9 @@ export class ReviewDialogComponent {
     public dialogRef: MatDialogRef<ReviewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.actionType = data.actionType;
     this.reviewForm = this.fb.group({
-      rating: [null, Validators.required], 
+      rating: [null, Validators.required],
       comment: ['']
     });
   }
@@ -29,11 +31,18 @@ export class ReviewDialogComponent {
       const reviewData = {
         ...this.reviewForm.value,
         loanRequestId: this.data.loanRequestId,
-        reviewerId: this.data.userId 
+        reviewerId: this.data.userId
       };
-      this.loanService.concludeLoan(reviewData).subscribe(() => {
-        this.dialogRef.close();
-      });
+
+      if (this.actionType === 'concludeLoan') {
+        this.loanService.concludeLoan(reviewData).subscribe(() => {
+          this.dialogRef.close();
+        });
+      } else if (this.actionType === 'submitReview') {
+        this.loanService.submitReview(reviewData).subscribe(() => {
+          this.dialogRef.close();
+        });
+      }
     }
   }
 }

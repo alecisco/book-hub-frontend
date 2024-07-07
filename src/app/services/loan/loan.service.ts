@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoanedBookDto } from 'src/app/models/loanedbook';
 import { CreateLoanRequestDto, LoanRequestDto } from 'src/app/models/loan-request.model';
+import { LoanHistoryDto, ReviewDto } from 'src/app/models/loan-history.model';
 
 
 @Injectable({
@@ -43,6 +44,14 @@ export class LoanService {
 
   concludeLoan(review: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/reviews/concludeLoan`, review);
+  }
+
+  getLoanHistory(): Observable<LoanHistoryDto[]> {
+    return this.http.get<LoanHistoryDto[]>(`${this.apiUrl}/loanrequests/history`);
+  }
+
+  submitReview(review: ReviewDto): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/reviews/review`, review);
   }
 
 }
