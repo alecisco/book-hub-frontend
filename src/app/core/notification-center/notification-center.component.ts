@@ -14,6 +14,9 @@ export class NotificationCenterComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadLoanRequests();
+    this.loanService.getLoanRequestsUpdatedListener().subscribe(() => {
+      this.loadLoanRequests();
+    });
   }
 
   loadLoanRequests(): void {
@@ -27,11 +30,10 @@ export class NotificationCenterComponent implements OnInit {
     });
   }
 
-
   acceptRequest(requestId: number): void {
     this.loanService.acceptLoanRequest(requestId).subscribe({
       next: () => {
-        this.loadLoanRequests();
+        console.log('Loan request accepted');
       },
       error: (error: any) => {
         console.error('Error accepting loan request', error);
@@ -42,12 +44,11 @@ export class NotificationCenterComponent implements OnInit {
   rejectRequest(requestId: number): void {
     this.loanService.rejectLoanRequest(requestId).subscribe({
       next: () => {
-        this.loadLoanRequests();
+        console.log('Loan request rejected');
       },
       error: (error: any) => {
         console.error('Error rejecting loan request', error);
       }
     });
   }
-
 }

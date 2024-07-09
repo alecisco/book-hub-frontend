@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { LoanedBookDto } from 'src/app/models/loanedbook';
 import { CreateLoanRequestDto, LoanRequestDto } from 'src/app/models/loan-request.model';
 import { LoanHistoryDto, ReviewDto } from 'src/app/models/loan-history.model';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoanService {
-  private apiUrl = 'https://localhost:7160'; 
+  private apiUrl = 'https://localhost:7160';
+  private loanRequestsUpdated = new Subject<void>();
 
   constructor(private http: HttpClient) { }
 
   createLoan(loanData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}`+'/loans/createLoan', loanData);
+    return this.http.post<any>(`${this.apiUrl}/loans/createLoan`, loanData);
   }
 
   retractLoan(bookId: number): Observable<void> {
@@ -35,11 +35,15 @@ export class LoanService {
   }
 
   acceptLoanRequest(requestId: number): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/loanrequests/${requestId}/accept`, {});
+    return this.http.put<void>(`${this.apiUrl}/loanrequests/${requestId}/accept`, {}).pipe(
+      tap(() => this.loanRequestsUpdated.next())
+    );
   }
 
   rejectLoanRequest(requestId: number): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/loanrequests/${requestId}/reject`, {});
+    return this.http.put<void>(`${this.apiUrl}/loanrequests/${requestId}/reject`, {}).pipe(
+      tap(() => this.loanRequestsUpdated.next())
+    );
   }
 
   concludeLoan(review: any): Observable<any> {
@@ -54,4 +58,7 @@ export class LoanService {
     return this.http.post<void>(`${this.apiUrl}/reviews/review`, review);
   }
 
+  getLoanRequestsUpdatedListener(): Observable<void> {
+    return this.loanRequestsUpdated.asObservable();
+  }
 }

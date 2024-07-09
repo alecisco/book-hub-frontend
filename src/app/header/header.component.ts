@@ -42,6 +42,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.loadPendingRequestsCount();
 
+    this.subscriptions.push(
+      this.loanService.getLoanRequestsUpdatedListener().subscribe(() => {
+        this.loadPendingRequestsCount();
+      })
+    );
+
     this.chatService.getUnreadMessageCount().subscribe(count => {
       this.unreadMessageCount = count;
     });

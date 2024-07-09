@@ -4,34 +4,33 @@
       <div class="filters">
         <mat-form-field appearance="fill">
           <mat-label>Genere</mat-label>
-          <mat-select (selectionChange)="applyFilters()">
-            <mat-option *ngFor="let genre of genres" [value]="genre.genreId">{{ genre.name }}</mat-option>
+          <mat-select (selectionChange)="applyFilters($event)" name="genre">
+            <mat-option value="all">Tutti</mat-option>
+            <mat-option *ngFor="let genre of genres" [value]="genre.name">{{ genre.name }}</mat-option>
           </mat-select>
         </mat-form-field>
-
+    
         <mat-form-field appearance="fill">
           <mat-label>Autore</mat-label>
           <input matInput name="author" (input)="applyFilters($event)">
         </mat-form-field>
-
+    
         <mat-form-field appearance="fill">
           <mat-label>Titolo</mat-label>
           <input matInput name="title" (input)="applyFilters($event)">
         </mat-form-field>
-
+    
         <mat-form-field appearance="fill">
           <mat-label>Anno</mat-label>
           <input matInput name="year" (input)="applyFilters($event)">
         </mat-form-field>
       </div>
-
+    
       <mat-grid-list cols="3" rowHeight="1:1.6" class="custom-grid">
-
         <div *ngIf="paginatedBooks.length === 0" class="no-requests-message">
-          Nessuna libro disponibile per il prestito.
+          Nessun libro disponibile per il prestito.
         </div>
-
-
+    
         <mat-grid-tile *ngFor="let book of paginatedBooks" class="custom-tile">
           <mat-card class="custom-card">
             <mat-card-header>
@@ -57,13 +56,14 @@
           </mat-card>
         </mat-grid-tile>
       </mat-grid-list>
-
+    
       <mat-paginator [length]="filteredBooks.length"
                      [pageSize]="pageSize"
                      [pageSizeOptions]="[5, 10, 20]"
                      (page)="paginate($event)">
       </mat-paginator>
     </div>
+    
   </mat-tab>
 
   <mat-tab label="Storico prestiti">

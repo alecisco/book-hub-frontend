@@ -36,11 +36,11 @@ export class ReviewDialogComponent {
 
       if (this.actionType === 'concludeLoan') {
         this.loanService.concludeLoan(reviewData).subscribe(() => {
-          this.dialogRef.close();
+          this.dialogRef.close(reviewData);
         });
       } else if (this.actionType === 'submitReview') {
         this.loanService.submitReview(reviewData).subscribe(() => {
-          this.dialogRef.close();
+          this.dialogRef.close(reviewData);
         });
       }
     }
