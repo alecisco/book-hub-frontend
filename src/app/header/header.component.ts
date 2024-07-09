@@ -30,26 +30,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.authService.isLoggedIn.subscribe(status => {
         this.isLoggedIn = status;
-        if (status) {
-          this.getUnreadMessageCount();
-        }
       })
     );
 
     this.subscriptions.push(
       this.chatService.unreadMessageCount$.subscribe(count => {
+        console.log('Unread message count updated:', count);
         this.unreadMessageCount = count;
       })
     );
 
     this.loadPendingRequestsCount();
 
-    this.chatService.addReceiveMessageListener((user, message, conversationId) => {
-      const currentUser = this.authService.getUser();
-      if (currentUser && user !== currentUser.nickname) {
-        this.getUnreadMessageCount();
-      }
-    });
+    /*this.chatService.getUnreadMessageCount().subscribe(count => {
+      this.unreadMessageCount = count;
+    });*/
   }
 
   ngOnDestroy(): void {
@@ -74,23 +69,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(() => {
       this.loadPendingRequestsCount();
-      this.getUnreadMessageCount();
+      this.chatService.getUnreadMessageCount().subscribe(count => {
+        this.unreadMessageCount = count;
+      });
     });
   }
 
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/auth/login']);
-  }
-
-  getUnreadMessageCount(): void {
-    this.chatService.getUnreadMessageCount().subscribe({
-      next: (count) => {
-        this.unreadMessageCount = count;
-      },
-      error: (error) => {
-        console.error('Error fetching unread message count', error);
-      }
-    });
   }
 }

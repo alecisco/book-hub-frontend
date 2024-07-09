@@ -18,9 +18,6 @@ export class ChatService {
     this.authService.authChanged.subscribe(isLoggedIn => {
       if (isLoggedIn) {
         this.startConnection();
-        this.getUnreadMessageCount().subscribe(count => {
-          this.unreadMessageCountSubject.next(count);
-        });
       } else {
         this.stopConnection();
       }
@@ -36,25 +33,54 @@ export class ChatService {
         .build();
 
       this.hubConnection.start()
+        .then(() => {
+          console.log('Connection started successfully');
+          this.registerReceiveMessageListener();
+          this.joinAllConversations();
+          this.getUnreadMessageCount().subscribe(count => {
+            this.unreadMessageCountSubject.next(count);
+          });
+        })
         .catch(err => console.log('Error while starting connection: ' + err));
-
-      this.hubConnection.on('ReceiveMessage', () => {
-        this.getUnreadMessageCount().subscribe(count => {
-          this.unreadMessageCountSubject.next(count);
-        });
-      });
+    } else {
+      console.log('Connection already exists');
     }
   }
 
   private stopConnection(): void {
     if (this.hubConnection) {
       this.hubConnection.stop()
+        .then(() => {
+          console.log('Connection stopped successfully');
+        })
         .catch(err => console.log('Error while stopping connection: ' + err));
       this.hubConnection = null;
     }
   }
 
+  private registerReceiveMessageListener(): void {
+    if (this.hubConnection) {
+      this.hubConnection.on('ReceiveMessage', (user, message, conversationId) => {
+        console.log('ReceiveMessage event triggered:', { user, message, conversationId });
+        this.getUnreadMessageCount().subscribe(count => {
+          this.unreadMessageCountSubject.next(count);
+        });
+      });
+    } else {
+      console.log('HubConnection is not established.');
+    }
+  }
+
+  private joinAllConversations(): void {
+    this.getConversations().subscribe(conversations => {
+      conversations.forEach(conversation => {
+        this.joinConversation(conversation.id);
+      });
+    });
+  }
+
   public addReceiveMessageListener(callback: (user: string, message: string, conversationId: number) => void): void {
+    this.registerReceiveMessageListener();
     this.hubConnection?.on('ReceiveMessage', callback);
   }
 

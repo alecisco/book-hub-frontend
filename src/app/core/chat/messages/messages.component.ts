@@ -25,7 +25,7 @@ export class MessagesComponent implements OnInit {
           this.chatService['startConnection']();
         }
         this.loadConversations();
-        this.loadUnreadMessageCount();
+        //this.loadUnreadMessageCount();
       } else {
         this.router.navigate(['/auth/login']);
       }
@@ -43,7 +43,7 @@ export class MessagesComponent implements OnInit {
     });
   }
 
-  private loadUnreadMessageCount(): void {
+  /*private loadUnreadMessageCount(): void {
     this.chatService.getUnreadMessageCount().subscribe({
       next: (count) => {
         this.unreadMessageCount = count;
@@ -52,7 +52,7 @@ export class MessagesComponent implements OnInit {
         console.error('Error loading unread message count', error);
       }
     });
-  }
+  }*/
 
   openConversation(conversationId: number): void {
     this.router.navigate(['/conversation', conversationId]);
