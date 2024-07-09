@@ -4,8 +4,8 @@ import { LoanService } from '../../services/loan/loan.service';
 import { LoanedBookDto } from '../../models/loanedbook';
 import { Filters } from 'src/app/models/filter.interface';
 import { PageEvent } from '@angular/material/paginator';
-import { RequestLoanDialogComponent } from '../request-loan-dialog/request-loan-dialog.component'; // Import the dialog component
-import { HomepageService } from 'src/app/services/homepage/home.service'; // Import the service to get user's books
+import { RequestLoanDialogComponent } from '../request-loan-dialog/request-loan-dialog.component'; 
+import { HomepageService } from 'src/app/services/homepage/home.service'; 
 import { BookDto } from 'src/app/models/book.model';
 import { MatSelectChange } from '@angular/material/select';
 
