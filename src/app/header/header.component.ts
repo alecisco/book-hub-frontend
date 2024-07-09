@@ -42,7 +42,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.loadPendingRequestsCount();
 
-    // Assicurati di aggiornare il conteggio all'inizio
     this.chatService.getUnreadMessageCount().subscribe(count => {
       this.unreadMessageCount = count;
     });

@@ -43,3 +43,9 @@
 }
 
 .detail-container {flex: 1;}
+
+
+.unread-messages {
+  font-weight: bold;
+  color: red;
+}

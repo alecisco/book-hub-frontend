@@ -8,6 +8,7 @@ export interface StartConversationDto {
     initiatorUserNickname: string;
     receiverUserNickname: string;
     lastMessage: string;
+    unreadMessagesCount: number;
   }
   
   export interface MessageDto {

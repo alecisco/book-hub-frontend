@@ -1,23 +1,28 @@
 <div class="container messages-page-container">
-    <app-start-conversation></app-start-conversation>
-    <div class="messages-container">
-        <h2>Messaggi</h2>
+  <app-start-conversation></app-start-conversation>
+  <div class="messages-container">
+      <h2>Messaggi</h2>
 
-        <div *ngIf="conversations.length === 0" class="no-requests-message">
-          Nessuna conversazione presente.
-        </div>
+      <div *ngIf="conversations.length === 0" class="no-requests-message">
+        Nessuna conversazione presente.
+      </div>
 
-        <div *ngFor="let conversation of conversations" class="notification-item">
-          <div class="detail-container">
-            <div>Conversazione con: {{ conversation.receiverUserNickname }}</div>
-            <div>Ultimo messaggio: {{ conversation.lastMessage }}</div>
+      <div *ngFor="let conversation of conversations" class="notification-item">
+        <div class="detail-container">
+          <div>Conversazione con: {{ conversation.receiverUserNickname }}</div>
+          <div>Ultimo messaggio: {{ conversation.lastMessage }}</div>
+          <div *ngIf="conversation.unreadMessagesCount == 1" class="unread-messages">
+            {{ conversation.unreadMessagesCount }} nuovo messaggio
           </div>
-          <div class="notification-item-button-container">
-            <button mat-icon-button (click)="openConversation(conversation.id)">
-              <mat-icon>chat</mat-icon>
-            </button>
-          </div>   
+          <div *ngIf="conversation.unreadMessagesCount > 1" class="unread-messages">
+            {{ conversation.unreadMessagesCount }} nuovi messaggi
+          </div>
         </div>
-        </div>
+        <div class="notification-item-button-container">
+          <button mat-icon-button (click)="openConversation(conversation.id)">
+            <mat-icon>chat</mat-icon>
+          </button>
+        </div>   
+      </div>
+  </div>
 </div>
-
