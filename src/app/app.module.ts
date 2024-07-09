@@ -40,7 +40,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatChipsModule,
     MatMenuModule,
     ReactiveFormsModule,
-    MatSliderModule 
+    MatSliderModule
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

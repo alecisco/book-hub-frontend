@@ -1,0 +1,11 @@
+<div class="start-conversation-container">
+    <h2>Inizia una Conversazione</h2>
+    <form [formGroup]="startConversationForm" (ngSubmit)="onSubmit()" class="start-conversation-form">
+      <mat-form-field appearance="fill" class="receiver-nickname">
+        <mat-label>Nickname del destinatario</mat-label>
+        <input matInput formControlName="receiverNickname">
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Inizia Conversazione</button>
+    </form>
+  </div>
+  

@@ -1,12 +1,8 @@
-.container {
-    max-width: 1024px;
-    margin: 0 auto;
-}
-
 .filters {
     margin-top: 30px;
     display: flex;
     justify-content: space-between;
+    gap: 20px;    
 }
 
 mat-card {
@@ -41,6 +37,64 @@ mat-card-content {
 }
 
 .unavailable-button {
-    color: grey;
+    color: black;
 }
+
+.no-books-message{
+    font-size: 24px;
+    text-align: center;
+    width: 360px;
+    line-height: 32px;
+    margin: 0 auto;
+    font-weight: 300;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.welcome-message{
+    margin-top: 20px;
+    text-align: center;
+}
+
+.mat-grid-tile {
+    overflow: visible;
+}
+
+.custom-grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.custom-tile {
+    flex: 1 1 calc(33.333% - 16px); 
+    display: flex;
+}
+
+.custom-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.mat-grid-list {
+    margin-top: 40px;
+}
+
+.genre-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 0.8em;
+  }
   
+  .owner-background {
+    background-color: #e0f7fa; 
+  }
+
+  .borrower-background {
+    background-color: #fff3e0; 
+  }

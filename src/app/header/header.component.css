@@ -1,10 +1,22 @@
 .nav-container {
   display: flex;
-  gap: 30px;
-  margin-left: 50px;
+  gap: 50px;
+  margin-left: 0;
   margin-right: 50px;
   width: 100%;
 }
+
+.notification-link {
+  position: relative;
+}
+
+.notification-link, .icon-link {
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
 
 .nav-container a {
 color: #fff;
@@ -19,9 +31,42 @@ text-decoration: none;
   background-color: red;
   color: white;
   border-radius: 50%;
-  padding: 0 5px;
   position: absolute;
   top: 0;
   right: 0;
-  font-size: 12px;
+  font-size: 11px;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 16px;
+}
+
+.badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 14px;
+  vertical-align: super;
+}
+
+.logo-header {
+  width: 100px;
+}
+
+.header-container {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.right-menu {
+  display: flex;
+  gap: 10px;
+}
+
+.active-link {
+  text-decoration: underline !important;
 }

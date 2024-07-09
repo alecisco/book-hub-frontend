@@ -1,0 +1,23 @@
+.notification-center {
+    width: 1024px;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+
+.notification-item {
+    border: 1px solid;
+    padding: 15px;
+    border-radius: 8px;
+    border-color: #eeeeee;
+    display: flex;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.notification-item-button-container {
+    display: flex;
+    justify-items: flex-end;
+    align-items: end;
+}
+
+.detail-container {flex: 1;}

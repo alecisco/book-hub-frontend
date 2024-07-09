@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Richiedi Prestito</h1>
 <div mat-dialog-content>
-  <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="request-loan-dialog-form">
     <mat-form-field *ngIf="showSpecificBookInput" appearance="fill">
       <mat-label>Libro specifico</mat-label>
       <mat-select formControlName="specificBookId">

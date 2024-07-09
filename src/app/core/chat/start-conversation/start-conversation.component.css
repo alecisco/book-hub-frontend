@@ -1,0 +1,9 @@
+.start-conversation-form{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.receiver-nickname{
+    width: 250px;
+}

@@ -1,9 +1,18 @@
 <form [formGroup]="profileForm" (ngSubmit)="onUpdate()" class="profile-form">
+  <h3>Il tuo profilo</h3>
+  <div class="half-content">   
     <mat-form-field appearance="fill">
       <mat-label>Nickname</mat-label>
       <input matInput formControlName="nickname">
     </mat-form-field>
   
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+  </div>
+
+  <div class="half-content">  
     <mat-form-field appearance="fill">
       <mat-label>Nome</mat-label>
       <input matInput formControlName="name">
@@ -13,12 +22,10 @@
       <mat-label>Cognome</mat-label>
       <input matInput formControlName="surname">
     </mat-form-field>
+  </div>
+
   
-    <mat-form-field appearance="fill">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email">
-    </mat-form-field>
-  
+  <div class="half-content">  
     <mat-form-field appearance="fill">
       <mat-label>Numero di telefono</mat-label>
       <input matInput formControlName="phoneNumber">
@@ -28,12 +35,23 @@
       <mat-label>Comunità (Opzionale)</mat-label>
       <input matInput formControlName="community">
     </mat-form-field>
-  
+  </div>
+
+  <div class="full-content">
+    <mat-form-field appearance="fill">
+      <mat-label>Generi preferiti</mat-label>
+      <mat-select formControlName="favoriteGenres" multiple>
+        <mat-option *ngFor="let genre of genres" [value]="genre.genreId">{{ genre.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
     <button mat-raised-button color="primary" type="submit">Aggiorna</button>
   </form>
   
-  <h3>Cambia Password</h3>
+
   <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="change-password-form">
+    <h3>Cambia Password</h3>
     <mat-form-field appearance="fill">
       <mat-label>Vecchia Password</mat-label>
       <input matInput type="password" formControlName="oldPassword">

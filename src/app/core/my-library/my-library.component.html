@@ -1,17 +1,19 @@
 <div class="container">
-  <h2> Bentornato {{userData?.name}} </h2>
+  <h2 class="welcome-message"> Bentornato {{userData?.nickname}} </h2>
 
   <div class="filters">
-    <button mat-fab color="primary" class="fab-button" (click)="openDialog()">
+    <button mat-fab color="primary" class="fab-button" (click)="openDialog()" *ngIf="paginatedBooks.length > 0">
       <mat-icon>add</mat-icon>
     </button>
 
     <mat-form-field appearance="fill">
       <mat-label>Genere</mat-label>
-      <mat-select (selectionChange)="applyFilters($event)">
-        <mat-option *ngFor="let genre of genres" [value]="genre.genreId">{{ genre.name }}</mat-option>
+      <mat-select (selectionChange)="applyFilters($event)" name="genre">
+        <mat-option value="all">Tutti</mat-option>
+        <mat-option *ngFor="let genre of genres" [value]="genre.name">{{ genre.name }}</mat-option>
       </mat-select>
     </mat-form-field>
+    
 
     <mat-form-field appearance="fill">
       <mat-label>Autore</mat-label>
@@ -39,28 +41,44 @@
     </mat-form-field>
   </div>
 
-  <mat-grid-list cols="3" rowHeight="1:1.3" class="custom-grid">
+  <div *ngIf="paginatedBooks.length === 0" class="no-books-message">
+    Non hai ancora aggiunto libri alla tua libreria, aggiungine uno cliccando sul bottone qui sotto
+    <br/>
+    <br/>
+    <button mat-fab color="primary" class="fab-button" (click)="openDialog()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <mat-grid-list *ngIf="paginatedBooks.length > 0" cols="3" rowHeight="1:1.5" class="custom-grid" gutterSize="30px">
     <mat-grid-tile *ngFor="let book of paginatedBooks" class="custom-tile">
-      <mat-card class="custom-card" [ngClass]="{'disabled-card': book.status === 'prestato'}">
+      <mat-card class="custom-card" [ngClass]="{'owner-background': book.ownerName, 'borrower-background': book.borrowerName}">
         <mat-card-header>
           <mat-card-title>{{ book.title }}</mat-card-title>
           <mat-card-subtitle>{{ book.author }} ({{ book.publicationYear }})</mat-card-subtitle>
         </mat-card-header>
-        <img class="mat-card-image" [src]="book.photoUrl" alt="Photo of {{ book.title }}">
+        <img class="mat-card-image" [src]="book.photoUrl" (error)="book.photoUrl = '../../assets/J5LVHEL.jpg'" alt="Photo of {{ book.title }}">
         <mat-card-content>
-          <p>{{ book.description }}</p>
-          <p *ngIf="book.ownerName">Proprietario: {{ book.ownerName }}</p> 
-          <p *ngIf="book.borrowerName">Prestato a: {{ book.borrowerName }}</p> 
+          <p>{{ truncateText(book.description, 150) }}</p>
+          <div [ngStyle]="{'background-color': getGenreColor(book.genreName)}" class="genre-badge">
+            {{ book.genreName }}
+          </div>
+          <p *ngIf="book.ownerName">Libro prstato da : {{ book.ownerName }}</p>
+          <p *ngIf="book.borrowerName">Hai prestato questo libro a: {{ book.borrowerName }}</p>
         </mat-card-content>
-        <mat-card-actions *ngIf="!book.ownerName"> 
+        <mat-card-actions *ngIf="!book.ownerName">
           <button mat-icon-button
+          *ngIf="book.status !== 'prestato'" 
                   [ngClass]="{'available-button': book.status === 'disponibile per il prestito', 'unavailable-button': book.status === 'in libreria'}"
                   matTooltip="{{ getTooltip(book) }}"
                   (click)="handleButtonClick(book)">
             <mat-icon>handshake</mat-icon>
           </button>
-          <button *ngIf="book.status === 'prestato'" mat-icon-button color="warn" (click)="openReviewDialog(book, 'concludeLoan')">
+          <button *ngIf="book.status === 'prestato'" mat-icon-button color="warn" (click)="openReviewDialog(book, 'concludeLoan')" matTooltip="Termina prestito">
             <mat-icon>done</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="book.status !== 'prestato'" (click)="openEditDialog(book)">
+            <mat-icon>edit</mat-icon>
           </button>
         </mat-card-actions>
       </mat-card>

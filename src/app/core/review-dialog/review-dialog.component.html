@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>{{ actionType === 'concludeLoan' ? 'Concludi prestito' : 'Lascia una recensione' }}</h1>
 <div mat-dialog-content>
-  <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" class="review-dialog-form">
     <mat-form-field appearance="fill">
       <mat-label>Rating</mat-label>
       <mat-select formControlName="rating" required>

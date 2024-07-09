@@ -22,7 +22,7 @@ export class LoanedBooksComponent implements OnInit {
     { genreId: 5, name: 'Storico' }
   ];
   filters: Filters = {
-    genre: null,
+    genre: '',
     author: '',
     title: '',
     year: ''
@@ -30,13 +30,14 @@ export class LoanedBooksComponent implements OnInit {
   filteredBooks: LoanedBookDto[] = [];
   paginatedBooks: LoanedBookDto[] = [];
   pageSize = 20;
-  userBooks: BookDto[] = []; // Add this line to store user's books
+  userBooks: BookDto[] = []; 
+  genreColors: { [key: string]: string } = {};
 
   constructor(private loanService: LoanService, public dialog: MatDialog, private homepageService: HomepageService) {}
 
   ngOnInit(): void {
     this.loadLoanedBooks();
-    this.loadUserBooks(); // Load user's books
+    this.loadUserBooks();
   }
 
   loadLoanedBooks(): void {
@@ -44,6 +45,7 @@ export class LoanedBooksComponent implements OnInit {
       next: (books: LoanedBookDto[]) => {
         this.filteredBooks = books;
         this.paginate({ pageIndex: 0, pageSize: this.pageSize, length: this.filteredBooks.length });
+        this.assignGenreColors();
       },
     });
   }
@@ -52,6 +54,7 @@ export class LoanedBooksComponent implements OnInit {
     this.homepageService.getHomeData().subscribe({
       next: (data) => {
         this.userBooks = data.user.books;
+        this.assignGenreColors();
       },
       error: (error) => {
         console.error('Error fetching user books', error);
@@ -67,7 +70,7 @@ export class LoanedBooksComponent implements OnInit {
     }
 
     this.filteredBooks = this.filteredBooks.filter(book => {
-      return (!this.filters.genre || book.genreId === this.filters.genre) &&
+      return (!this.filters.genre || book.genreName === this.filters.genre) &&
              (!this.filters.author || book.author.toLowerCase().includes(this.filters.author.toLowerCase())) &&
              (!this.filters.title || book.title.toLowerCase().includes(this.filters.title.toLowerCase())) &&
              (!this.filters.year || book.publicationYear.toString().includes(this.filters.year));
@@ -89,8 +92,37 @@ export class LoanedBooksComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Request loan action:', result);
+        this.loadLoanedBooks();
+        this.loadUserBooks();
       }
     });
+  }
+
+  truncateText(text: string, length: number): string {
+    if (text.length <= length) {
+      return text;
+    }
+    return text.substring(0, length) + '...';
+  }
+
+  private assignGenreColors(): void {
+    this.filteredBooks.forEach(book => {
+      if (!this.genreColors[book.genreName]) {
+        this.genreColors[book.genreName] = this.getRandomColor();
+      }
+    });
+  }
+
+  private getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  getGenreColor(genre: string): string {
+    return this.genreColors[genre] || '#ccc';
   }
 }

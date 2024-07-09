@@ -6,5 +6,7 @@ export interface User {
     name: string;
     email: string;
     books: BookDto[];
+    community?: string;
+    favoriteGenres?: number[]; 
 }
   

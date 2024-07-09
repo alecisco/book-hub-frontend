@@ -6,6 +6,8 @@ import { LoanedBooksComponent } from './core/loaned-books/loaned-books.component
 import { ProfileComponent } from './core/profile/profile.component';
 import { AuthGuard } from './helpers/auth.guard';
 import { NotificationCenterComponent } from './core/notification-center/notification-center.component';
+import { ConversationComponent } from './core/chat/conversation/conversation.component';
+import { MessagesComponent } from './core/chat/messages/messages.component';
 
 const routes: Routes = [
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
@@ -14,6 +16,8 @@ const routes: Routes = [
   { path: 'loaned-books', component: LoanedBooksComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'notification-center', component: NotificationCenterComponent, canActivate: [AuthGuard] },
+  { path: 'messages', component: MessagesComponent },
+  { path: 'conversation/:id', component: ConversationComponent },
   { path: 'register', component: RegisterComponent },
 ];
 

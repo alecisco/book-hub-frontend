@@ -1,0 +1,4 @@
+.request-loan-dialog-form {
+    display: flex;
+    flex-flow: column;
+}

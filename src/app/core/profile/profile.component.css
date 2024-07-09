@@ -1,5 +1,5 @@
 .profile-form, .change-password-form {
-    max-width: 400px;
+    max-width: 960px;
     margin: auto;
     padding: 20px; 
     display: flex;
@@ -17,4 +17,13 @@
 button {
     width: 100%; 
     margin-top: 20px;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.full-content {
+    width: 100%;
 }

@@ -1,5 +1,5 @@
 .register-form {
-    max-width: 400px;
+    max-width: 1024px;
     margin: auto;
     padding: 20px; 
     display: flex;
@@ -15,4 +15,10 @@
 button {
     width: 100%; 
     margin-top: 20px;
+}
+
+
+.mat-mdc-raised-button {
+    height: 50px;
+    margin-top: 0;
 }

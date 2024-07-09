@@ -1,20 +1,23 @@
 <mat-toolbar color="primary">
-  <span>Book Hub</span>
-  <div class="nav-container" *ngIf="isLoggedIn">
-    <a mat-button routerLink="/my-library">La tua libreria</a>
-    <a mat-button routerLink="/loaned-books"> Prestiti</a>
-  </div>
-  <div *ngIf="isLoggedIn">
-    <button mat-icon-button color="primary" routerLink="/notification-center" class="notification-button">
-      <mat-icon>notifications</mat-icon>
-      <span *ngIf="pendingRequestsCount > 0" class="notification-badge">{{ pendingRequestsCount }}</span>
-    </button>
-    <button mat-icon-button [matMenuTriggerFor]="profileMenu">
-      <mat-icon>account_circle</mat-icon>
-    </button>
-    <mat-menu #profileMenu="matMenu">
-      <button mat-menu-item routerLink="/profile">Modifica Profilo</button>
-      <button mat-menu-item (click)="logout()">Logout</button>
-    </mat-menu>
+  <div class="header-container">
+    <span><img class="logo-header" src="../../../assets/book-hub-favicon-white.png" alt="Book hub logo"></span>
+    <div class="nav-container" *ngIf="isLoggedIn">
+      <a mat-button routerLink="/my-library" routerLinkActive="active-link">La tua libreria</a>
+      <a mat-button routerLink="/loaned-books" routerLinkActive="active-link"> Prestiti</a>
+      <a routerLink="/messages" routerLinkActive="active-link">Messaggi <span *ngIf="unreadMessageCount > 0" class="badge" >{{ unreadMessageCount }}</span> </a>
+    </div>
+    <div *ngIf="isLoggedIn" class="right-menu">
+      <a routerLink="/notification-center" class="notification-link">
+        <mat-icon>notifications</mat-icon>
+        <span *ngIf="pendingRequestsCount > 0" class="notification-badge">{{ pendingRequestsCount }}</span>
+      </a>
+      <a class="icon-link" [matMenuTriggerFor]="profileMenu">
+        <mat-icon>account_circle</mat-icon>
+      </a>
+      <mat-menu #profileMenu="matMenu">
+        <button mat-menu-item routerLink="/profile">Modifica Profilo</button>
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
+    </div>
   </div>
 </mat-toolbar>

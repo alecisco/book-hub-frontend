@@ -1,5 +1,5 @@
-<mat-tab-group>
-  <mat-tab label="Richieste di prestito">
+<mat-tab-group class="tab-group">
+  <mat-tab label="Libri offerti in prestito">
     <div class="container">
       <div class="filters">
         <mat-form-field appearance="fill">
@@ -25,7 +25,13 @@
         </mat-form-field>
       </div>
 
-      <mat-grid-list cols="3" rowHeight="1:1.3" class="custom-grid">
+      <mat-grid-list cols="3" rowHeight="1:1.6" class="custom-grid">
+
+        <div *ngIf="paginatedBooks.length === 0" class="no-requests-message">
+          Nessuna libro disponibile per il prestito.
+        </div>
+
+
         <mat-grid-tile *ngFor="let book of paginatedBooks" class="custom-tile">
           <mat-card class="custom-card">
             <mat-card-header>
@@ -34,7 +40,10 @@
             </mat-card-header>
             <img class="mat-card-image" [src]="book.photoUrl" alt="Photo of {{ book.title }}">
             <mat-card-content>
-              <p>{{ book.description }}</p>
+              <p>{{ truncateText(book.description, 150) }}</p>
+              <div [ngStyle]="{'background-color': getGenreColor(book.genreName)}" class="genre-badge">
+                {{ book.genreName }}
+              </div>
               <p>Tipo di prestito: {{ book.loanType === 'loanOnly' ? 'Solo prestito' : 'Scambio con libro' }}</p>
               <p *ngIf="book.specificBookTitle">Libro richiesto: {{ book.specificBookTitle }}</p>
               <p>Prestato da: {{ book.lenderNickname }}</p>

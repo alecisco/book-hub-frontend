@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Aggiungi un nuovo libro</h1>
+<h1 mat-dialog-title>{{data ? 'Modifica libro' : 'Aggiungi un nuovo libro'}}</h1>
 <div mat-dialog-content>
   <form [formGroup]="bookForm">
     <mat-form-field appearance="fill">
@@ -18,7 +18,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>ISBN</mat-label>
-      <input matInput formControlName="isbn" required>
+      <input matInput formControlName="isbn">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -33,7 +33,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>URL della foto</mat-label>
-      <input matInput formControlName="photoUrl" required>
+      <input matInput formControlName="photoUrl">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -48,5 +48,6 @@
 </div>
 <div mat-dialog-actions class="dialog_actions">
   <button mat-button mat-dialog-close>Annulla</button>
-  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!bookForm.valid">Aggiungi</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!bookForm.valid">{{data ? 'Salva' : 'Aggiungi'}}</button>
+  <button mat-raised-button color="warn" *ngIf="data" (click)="onDelete()">Elimina</button>
 </div>

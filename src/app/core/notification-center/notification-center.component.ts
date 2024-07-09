@@ -27,6 +27,7 @@ export class NotificationCenterComponent implements OnInit {
     });
   }
 
+
   acceptRequest(requestId: number): void {
     this.loanService.acceptLoanRequest(requestId).subscribe({
       next: () => {
@@ -48,4 +49,5 @@ export class NotificationCenterComponent implements OnInit {
       }
     });
   }
+
 }

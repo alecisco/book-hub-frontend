@@ -16,3 +16,39 @@ button {
     width: 100%; 
     margin-top: 20px;
 }
+
+.login-container{
+    display: flex;
+    height: 100%;
+}
+
+.login-left-container{
+    width: 65%;
+    position: relative;
+}
+
+.login-right-container{
+    width: 35%;
+    position: relative;
+}
+
+.background-container {
+    width: 100%;
+    height: 100%;
+    background-image: url('../../../assets/sfondo2.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; 
+    text-align: center;
+}
+
+
+.mat-mdc-raised-button {
+    height: 50px;
+    margin-top: 0;
+}
+

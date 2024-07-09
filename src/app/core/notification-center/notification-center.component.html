@@ -1,15 +1,23 @@
 <div class="notification-center">
   <h2>Richieste di prestito</h2>
+
+  <div *ngIf="loanRequests.length === 0" class="no-requests-message">
+    Nessuna richiesta di prestito presente.
+  </div>
+
   <div *ngFor="let request of loanRequests" class="notification-item">
-    <p>Nome utente: {{ request.requesterUserName }}</p>
-    <p>Messaggio: {{ request.message }}</p>
-    <p>Libro richiesto: {{ request.bookTitle }}</p>
-    <p *ngIf="request.specificBookTitle">Libro specifico offerto: {{ request.specificBookTitle }}</p>
-    <button mat-icon-button color="primary" (click)="acceptRequest(request.id)">
-      <mat-icon>check</mat-icon>
-    </button>
-    <button mat-icon-button color="warn" (click)="rejectRequest(request.id)">
-      <mat-icon>close</mat-icon>
-    </button>
+    <div class="detail-container">
+      <p> <b>Nuova richiesta dall'utente:</b> {{ request.requesterUserName }}</p>
+      <p> <b>Messaggio dell'utente:</b> {{ request.message }}</p>
+      <p> <b>Libro richiesto:</b> {{ request.bookTitle }}</p>
+    </div>
+    <div class="notification-item-button-container">
+      <button mat-icon-button color="primary" (click)="acceptRequest(request.id)">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="rejectRequest(request.id)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>   
   </div>
 </div>

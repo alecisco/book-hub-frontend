@@ -23,4 +23,13 @@ export class HomepageService {
   addBook(book: BookCreateDto ): Observable<BookDto> {
     return this.http.post<BookDto >(`${this.apiUrl}/books/AddBook`, book);
   }
+
+  updateBook(bookId: number, book: BookDto): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/books/${bookId}`, book);
+  }
+
+  deleteBook(bookId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/books/${bookId}`);
+  }
+
 }

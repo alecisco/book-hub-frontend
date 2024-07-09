@@ -1,0 +1,25 @@
+<div class="conversation-container container">
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>Conversazione con {{ receiverNickname }}</span>
+  </mat-toolbar>
+  <div class="message-list" #messageContainer>
+    <div *ngFor="let message of messages" [ngClass]="{'my-message': message.senderNickname === userNickname, 'other-message': message.senderNickname !== userNickname}">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ message.senderNickname === userNickname ? 'tu' : message.senderNickname }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ message.text }}</p>
+          <span class="timestamp">{{ message.timestamp | date: 'short' }}</span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="message-input">
+    <input [(ngModel)]="message" placeholder="Scrivi un messaggio..." (keyup.enter)="sendMessage()">
+    <button mat-raised-button color="primary" (click)="sendMessage()">Invia</button>
+  </div>
+</div>

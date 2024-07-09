@@ -1,32 +1,73 @@
 <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="register-form">
-    <mat-form-field appearance="fill">
-      <mat-label>Nickname</mat-label>
-      <input matInput formControlName="nickname">
-    </mat-form-field>
+  <img class="logo-login" src="../../../assets/book-hub-high-resolution-logo-transparent.png" alt="Book hub logo">
   
+  <div class="half-content">   
     <mat-form-field appearance="fill">
       <mat-label>Nome</mat-label>
       <input matInput formControlName="name">
+      <mat-error *ngIf="registerForm.get('name')?.hasError('required')">
+        Nome è richiesto.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Cognome</mat-label>
       <input matInput formControlName="surname">
+      <mat-error *ngIf="registerForm.get('surname')?.hasError('required')">
+        Cognome è richiesto.
+      </mat-error>
     </mat-form-field>
-  
+  </div>
+
+  <div class="half-content">     
+    <mat-form-field appearance="fill">
+      <mat-label>Nickname</mat-label>
+      <input matInput formControlName="nickname">
+      <mat-error *ngIf="registerForm.get('nickname')?.hasError('required')">
+        Nickname è richiesto.
+      </mat-error>
+    </mat-form-field>
+
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email">
+      <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+        Email è richiesta.
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+        Email non valida.
+      </mat-error>
     </mat-form-field>
-  
+  </div>
+
+  <div class="half-content">  
     <mat-form-field appearance="fill">
       <mat-label>Numero di telefono</mat-label>
       <input matInput formControlName="phoneNumber">
+      <mat-error *ngIf="registerForm.get('phoneNumber')?.hasError('required')">
+        Numero di telefono è richiesto.
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('phoneNumber')?.hasError('pattern')">
+        Numero di telefono non valido.
+      </mat-error>
     </mat-form-field>
-  
+
+    <mat-form-field appearance="fill">
+      <mat-label>Comunità (Opzionale)</mat-label>
+      <input matInput formControlName="community">
+    </mat-form-field>
+  </div>
+
+  <div class="half-content">      
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
       <input matInput type="password" formControlName="password">
+      <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+        Password è richiesta.
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+        La password deve essere di almeno 8 caratteri.
+      </mat-error>
     </mat-form-field>
     
     <mat-form-field appearance="fill">
@@ -39,14 +80,17 @@
         Le password non corrispondono.
       </mat-error>
     </mat-form-field>
-    
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Comunità (Opzionale)</mat-label>
-      <input matInput formControlName="community">
-    </mat-form-field>
-  
-    <button mat-raised-button color="primary" type="submit">Registrati</button>
-    <p> Hai già un account? <a routerLink="/auth/login">Accedi</a></p>
-  </form>
-  
+  </div>  
+
+  <mat-form-field appearance="fill">
+    <mat-label>Generi Preferiti</mat-label>
+    <mat-select formControlName="favoriteGenres" multiple>
+      <mat-option *ngFor="let genre of genres" [value]="genre.genreId">
+        {{ genre.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Registrati</button>
+  <p class="registration-text">Hai già un account? <a routerLink="/auth/login">Accedi</a></p>
+</form>

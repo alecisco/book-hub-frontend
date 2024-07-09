@@ -36,6 +36,7 @@ export class MyLibraryComponent implements OnInit, OnChanges {
   filteredBooks: BookDto[] = [];
   paginatedBooks: BookDto[] = [];
   pageSize = 20;
+  genreColors: { [key: string]: string } = {};
 
   constructor(
     private homepageService: HomepageService,
@@ -61,6 +62,7 @@ export class MyLibraryComponent implements OnInit, OnChanges {
         this.userService.setUser(data.user);
         this.filteredBooks = data.books;
         this.applyFilters();
+        this.assignGenreColors();
         console.log(data);
       },
       error: (error) => {
@@ -69,22 +71,45 @@ export class MyLibraryComponent implements OnInit, OnChanges {
     });
   }
 
+  private assignGenreColors(): void {
+    this.filteredBooks.forEach(book => {
+      if (!this.genreColors[book.genreName]) {
+        this.genreColors[book.genreName] = this.getRandomColor();
+      }
+    });
+  }
+
+  private getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  getGenreColor(genre: string): string {
+    return this.genreColors[genre] || '#ccc';
+  }
+
   applyFilters(event?: Event | MatSelectChange): void {
     if (event) {
       if (event instanceof MatSelectChange) {
         const target = event.source._elementRef.nativeElement;
         const name = target.getAttribute('name');
-        this.filters[name] = event.value;
+        this.filters[name] = event.value === 'all' ? null : event.value;
+        console.log(`Filter updated: ${name} = ${event.value}`);
       } else {
         const target = event.target as HTMLInputElement;
         const name = target.name;
         this.filters[name] = target.value;
+        console.log(`Filter updated: ${name} = ${target.value}`);
       }
     }
 
     if (this.userData) {
       this.filteredBooks = this.userData.books.filter(book => {
-        return (!this.filters.genre || book.genreId === this.filters.genre) &&
+        return (!this.filters.genre || book.genreName === this.filters.genre) &&
                (!this.filters.author || book.author.toLowerCase().includes(this.filters.author.toLowerCase())) &&
                (!this.filters.title || book.title.toLowerCase().includes(this.filters.title.toLowerCase())) &&
                (!this.filters.year || book.publicationYear.toString().includes(this.filters.year)) &&
@@ -159,7 +184,8 @@ export class MyLibraryComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Review submitted:', result);
-        this.loadHomeData(); 
+        this.applyFilters();
+        this.loadHomeData();
       }
     });
   }
@@ -180,4 +206,44 @@ export class MyLibraryComponent implements OnInit, OnChanges {
       this.retractLoan(book);
     }
   }
+
+  truncateText(text: string, length: number): string {
+    if (text.length <= length) {
+      return text;
+    }
+    return text.substring(0, length) + '...';
+  }
+
+  openEditDialog(book: BookDto): void {
+    const dialogRef = this.dialog.open(BookFormDialogComponent, {
+      width: '600px',
+      data: book
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.delete) {
+          this.homepageService.deleteBook(book.bookId).subscribe(() => {
+            this.userData!.books = this.userData!.books.filter(b => b.bookId !== book.bookId);
+            this.applyFilters();
+            this.loadHomeData();
+          });
+        } else {
+          const updatedBook: BookDto = {
+            ...book,
+            ...result
+          };
+          this.homepageService.updateBook(book.bookId, updatedBook).subscribe(() => {
+            const bookIndex = this.userData!.books.findIndex(b => b.bookId === book.bookId);
+            if (bookIndex !== -1) {
+              this.userData!.books[bookIndex] = updatedBook;
+            }
+            this.applyFilters();
+            this.loadHomeData();
+          });
+        }
+      }
+    });
+  }
+  
 }

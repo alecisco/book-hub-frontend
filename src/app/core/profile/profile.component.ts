@@ -12,6 +12,14 @@ import { MustMatch } from 'src/app/helpers/must-match.validator';
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   passwordForm: FormGroup;
+  genres = [
+    { genreId: 1, name: 'Fantasia' },
+    { genreId: 2, name: 'Fantascienza' },
+    { genreId: 3, name: 'Giallo' },
+    { genreId: 4, name: 'Thriller' },
+    { genreId: 5, name: 'Storico' }
+  ];
+
 
   constructor(private fb: FormBuilder, private authService: AuthService, private snackBar: MatSnackBar) {
     this.profileForm = this.fb.group({
@@ -20,7 +28,8 @@ export class ProfileComponent implements OnInit {
       surname: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-      community: ['']
+      community: [''],
+      favoriteGenres: [[]]
     });
 
     this.passwordForm = this.fb.group({
@@ -39,7 +48,10 @@ export class ProfileComponent implements OnInit {
   loadUserProfile(): void {
     this.authService.getUserProfile().subscribe({
       next: (profile) => {
-        this.profileForm.patchValue(profile);
+        this.profileForm.patchValue({
+          ...profile,
+          favoriteGenres: profile.favoriteGenres || []
+        });
       },
       error: (error) => {
         console.error('Failed to load profile', error);

@@ -1,28 +1,40 @@
-<form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
-    <mat-form-field class="form-field" appearance="fill">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" placeholder="Inserisci la tua email">
-        <mat-error *ngIf="loginForm.get('email')?.errors?.['required']">
-            L'email è obbligatoria.
-        </mat-error>
-        <mat-error *ngIf="loginForm.get('email')?.errors?.['email']">
-            Inserisci un'email valida.
-        </mat-error>
-    </mat-form-field>
+<div class="login-container">
+    
+    <div class="login-left-container">
+        <div class=" background-container">
+        </div>
+    </div >
+    
+    
+    <div class="login-right-container">
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+            <img class="logo-login" src="../../../assets/book-hub-high-resolution-logo-transparent.png" alt="Book hub logo">
+            <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" placeholder="Inserisci la tua email">
+                <mat-error *ngIf="loginForm.get('email')?.errors?.['required']">
+                    L'email è obbligatoria.
+                </mat-error>
+                <mat-error *ngIf="loginForm.get('email')?.errors?.['email']">
+                    Inserisci un'email valida.
+                </mat-error>
+            </mat-form-field>
+        
+            <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" placeholder="Inserisci la tua password">
+                <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">
+                    La password è obbligatoria.
+                </mat-error>
+                <mat-error *ngIf="loginForm.get('password')?.errors?.['minLength']">
+                    La password deve essere di almeno 6 caratteri.
+                </mat-error>
+            </mat-form-field>
+        
+            <button mat-raised-button color="primary" type="submit">Login</button>
+        
+            <p class="registration-text"> Non sei ancora registrato? <a routerLink="/register">Registrati</a></p>
+        </form>
+    </div>
 
-    <mat-form-field class="form-field" appearance="fill">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" placeholder="Inserisci la tua password">
-        <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">
-            La password è obbligatoria.
-        </mat-error>
-        <mat-error *ngIf="loginForm.get('password')?.errors?.['minLength']">
-            La password deve essere di almeno 6 caratteri.
-        </mat-error>
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit">Login</button>
-
-    <p> Non sei ancora registrato? <a routerLink="/register">Registrati</a></p>
-</form>
-
+</div>
