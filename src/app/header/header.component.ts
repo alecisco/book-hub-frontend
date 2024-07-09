@@ -42,9 +42,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.loadPendingRequestsCount();
 
-    /*this.chatService.getUnreadMessageCount().subscribe(count => {
+    // Assicurati di aggiornare il conteggio all'inizio
+    this.chatService.getUnreadMessageCount().subscribe(count => {
       this.unreadMessageCount = count;
-    });*/
+    });
   }
 
   ngOnDestroy(): void {

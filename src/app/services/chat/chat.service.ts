@@ -36,6 +36,7 @@ export class ChatService {
         .then(() => {
           console.log('Connection started successfully');
           this.registerReceiveMessageListener();
+          this.registerNewMessageNotificationListener();
           this.joinAllConversations();
           this.getUnreadMessageCount().subscribe(count => {
             this.unreadMessageCountSubject.next(count);
@@ -62,6 +63,19 @@ export class ChatService {
     if (this.hubConnection) {
       this.hubConnection.on('ReceiveMessage', (user, message, conversationId) => {
         console.log('ReceiveMessage event triggered:', { user, message, conversationId });
+        this.getUnreadMessageCount().subscribe(count => {
+          this.unreadMessageCountSubject.next(count);
+        });
+      });
+    } else {
+      console.log('HubConnection is not established.');
+    }
+  }
+
+  private registerNewMessageNotificationListener(): void {
+    if (this.hubConnection) {
+      this.hubConnection.on('NewMessageNotification', (user, message, conversationId) => {
+        console.log('NewMessageNotification event triggered:', { user, message, conversationId });
         this.getUnreadMessageCount().subscribe(count => {
           this.unreadMessageCountSubject.next(count);
         });
