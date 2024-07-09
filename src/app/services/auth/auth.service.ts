@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User } from 'src/app/models/user.model';
+import { UserService } from '../user/user.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +13,8 @@ export class AuthService {
   private apiUrl = 'https://localhost:7160/Account';
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   private authChange = new BehaviorSubject<boolean>(false);
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
@@ -50,7 +51,7 @@ export class AuthService {
     localStorage.removeItem('token');
     this.loggedIn.next(false);
     this.authChange.next(false); 
-    this.currentUserSubject.next(null); 
+    this.userService.setUser(null);
   }
 
   public getToken(): string {
@@ -59,7 +60,7 @@ export class AuthService {
 
   getUserProfile(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/profile`).pipe(
-      tap(user => this.currentUserSubject.next(user))
+      tap(user => this.userService.setUser(user))
     );
   }
 
@@ -75,11 +76,11 @@ export class AuthService {
 
   private loadUserProfile(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/profile`).pipe(
-      tap(user => this.currentUserSubject.next(user))
+      tap(user => this.userService.setUser(user))
     );
   }
 
   public getUser(): User | null {
-    return this.currentUserSubject.value;
+    return this.userService.getUser();
   }
 }
